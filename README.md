@@ -1,87 +1,190 @@
-# Simple SQL Pipeline – Step 1: Single Table Queries
+# Advanced Natural Language to SQL Pipeline
 
-## 📌 Objective  
-The goal of this project is to build a **natural language to SQL pipeline** that allows users to ask questions about their database in plain English and get relevant answers — without writing any SQL themselves.  
-This version focuses on **basic single-table queries**, making it a simple and practical starting point for learning, prototyping, and interviews.
+A sophisticated conversational SQL assistant that transforms natural language questions into complex SQL queries and provides interactive data visualization capabilities.
 
----
+## 🔥 Key Features
 
-## ✨ What It Can Do (Current Capabilities)  
-- **Natural Language to SQL**: Converts plain-English questions into SQL queries using a Large Language Model (LLM).  
-- **Table Identification**: Automatically detects which table the question refers to.  
-- **Schema Awareness**: Reads the database schema (tables and columns) to improve query accuracy.  
-- **Safe SQL Execution**:  
-  - Allows only `SELECT` queries.  
-  - Blocks dangerous operations like `DROP`, `DELETE`, `INSERT`, `UPDATE`, etc.  
-  - Validates query syntax before execution.  
-- **Result Display**: Presents query results in a clean tabular format with row count.  
-- **Interactive CLI**:  
-  - `exit` → Quit the program.  
-  - `schema` → Show the available tables and columns.  
+**Advanced SQL Generation**
+- Complex multi-table JOINs (INNER, LEFT, RIGHT, FULL)
+- Common Table Expressions (CTEs) and subqueries
+- Window functions and advanced aggregations
+- UNION operations and complex WHERE conditions
+- MySQL-optimized query generation
 
----
+**Interactive Data Visualization**
+- Automatic chart type selection based on data structure
+- Professional interactive charts using Plotly
+- Support for bar charts, line plots, scatter plots, histograms, pie charts, heatmaps, and 3D visualizations
+- Real-time data analysis and correlation matrices
 
-## 🛠 Steps Taken to Ensure Reliability  
-1. **Strict Query Safety Checks**  
-   - Only runs `SELECT` queries.  
-   - Detects and blocks harmful SQL commands.  
-   - Checks for unbalanced quotes and parentheses.  
+**Enhanced Safety & Reliability**
+- Multi-stage SQL validation (syntax, semantic, and database-level checks)
+- Comprehensive schema awareness with foreign key relationships
+- Strict security controls preventing data modification
+- Intelligent table relationship mapping
 
-2. **Schema-Aware Querying**  
-   - Reads database schema at startup.  
-   - Provides table and column context to the LLM for accurate query generation.  
+**Professional User Experience**
+- Chat history with persistent session management
+- Auto-completion and smart suggestions
+- Comprehensive schema exploration
+- Export capabilities for charts and results
 
-3. **Multi-Stage SQL Cleaning**  
-   - Removes unwanted explanations from LLM output.  
-   - Extracts only the SQL portion.  
-   - Fixes formatting and quote issues.  
+## Architecture Overview
 
-4. **Syntax Validation Before Execution**  
-   - Uses `EXPLAIN` to verify SQL validity before running the actual query.  
+The system consists of four main components:
 
-5. **Clear Error Handling**  
-   - Returns structured error messages for easier debugging.  
+1. **AdvancedSQLPipeline** (`advanced_pipeline.py`) - Core SQL generation engine with full database schema integration
+2. **AdvancedDataVisualizer** (`visualization.py`) - Interactive visualization system using Plotly
+3. **ChatHistory** (`history.py`) - Session management and conversation tracking
+4. **Interactive Interface** (`adv_main.py`) - Command-line interface with visualization integration
 
----
+## Technical Capabilities
 
-## 🚀 How to Run  
-1. **Set up your environment variables in `config.py`**  
+**Supported Query Types**
+```sql
+-- Multi-table joins with complex relationships
+SELECT c.name, o.order_date, p.product_name, cat.category_name
+FROM customers c 
+JOIN orders o ON c.id = o.customer_id
+JOIN order_details od ON o.id = od.order_id
+JOIN products p ON od.product_id = p.id
+JOIN categories cat ON p.category_id = cat.id
+
+-- Window functions and analytics
+SELECT product_name, price, 
+       ROW_NUMBER() OVER (PARTITION BY category_id ORDER BY price DESC) as price_rank
+FROM products
+
+-- CTEs for complex data processing
+WITH monthly_sales AS (
+    SELECT DATE_FORMAT(order_date, '%Y-%m-01') as month,
+           SUM(total_amount) as sales
+    FROM orders 
+    GROUP BY month
+)
+SELECT * FROM monthly_sales ORDER BY month
+```
+
+**Visualization Capabilities**
+- Automatic data type detection and chart recommendation
+- Interactive dashboards with multiple chart types
+- Correlation analysis and statistical summaries
+- Responsive design for all screen sizes
+- Professional color schemes and hover interactions
+
+## Setup & Installation
+
+1. **Configure Database Connection**
    ```python
+   # config.py
    GROQ_API_KEY = "your_groq_api_key"
    MYSQL_HOST = "localhost"
    MYSQL_USER = "root"
-   MYSQL_PASSWORD = "password"
+   MYSQL_PASSWORD = "your_password"
    MYSQL_DB = "your_database_name"
    ```
-2. **Install dependencies**  
+
+2. **Install Dependencies**
    ```bash
-   pip install -r requirements.txt
-   ```
-3. **Run the interactive CLI**  
-   ```bash
-   python simple_main.py
+   pip install langchain-groq sqlalchemy pymysql pandas plotly numpy
    ```
 
----
+3. **Run the Application**
+   ```bash
+   python adv_main.py
+   ```
 
-## 🖥 Example Usage  
-```plaintext
-🚀 Welcome to Simple SQL Pipeline - Step 1!
-This version handles basic single-table queries.
-Type 'exit' to quit, 'schema' to see tables.
+## Usage Examples
 
-💬 Ask me about your data: show me customers
-
-✅ SUCCESS
-Question: show me customers
-Table: customers
-SQL: SELECT * FROM customers
-Found: 20 rows
+**Natural Language Queries**
+```
+"Show me sales by category for the last year"
+"Which customers have ordered more than 5 different products?"
+"Find the top 10 products by revenue with their suppliers"
+"Compare monthly sales trends across different regions"
 ```
 
----
+**Visualization Commands**
+```
+auto          - AI-powered chart selection
+histogram     - Distribution analysis
+scatter       - Correlation visualization  
+pie          - Composition analysis
+heatmap      - Correlation matrix
+3d           - Multi-dimensional analysis
+```
 
-## 📅 Next Steps  
-- Support multi-table joins.  
-- Add aggregation and grouping features.  
-- Build a web-based UI.  
+**System Commands**
+```
+schema       - Display database structure
+history      - View conversation history
+help         - Show all available commands
+clear        - Reset session
+```
+
+## Security Features
+
+- **Query Validation**: Multi-layer validation prevents SQL injection and unauthorized operations
+- **Read-Only Access**: Strictly limited to SELECT operations
+- **Schema Protection**: Safe exploration of database structure without exposing sensitive data
+- **Error Isolation**: Comprehensive error handling with detailed logging
+
+## Performance Optimizations
+
+- **Intelligent Caching**: Schema information cached for improved response times
+- **Query Optimization**: Automatic query plan analysis and optimization suggestions
+- **Efficient Joins**: Foreign key relationship mapping for optimal join strategies
+- **Result Streaming**: Large dataset handling with pagination support
+
+## Advanced Features
+
+**Schema Intelligence**
+- Automatic foreign key relationship detection
+- Smart table aliasing and join path optimization
+- Column type awareness for proper data handling
+
+**Data Analysis Integration**
+- Statistical summary generation
+- Correlation analysis and trend detection
+- Anomaly detection in query results
+
+**Export Capabilities**
+- Chart export in multiple formats (HTML, PNG, SVG)
+- Data export to CSV and Excel
+- Query history export for documentation
+
+## Development & Testing
+
+**Run Tests**
+```bash
+python test_advanced.py
+```
+
+**Key Test Coverage**
+- SQL generation accuracy across various query types
+- Database connection stability
+- Visualization rendering performance
+- Error handling and recovery
+
+## Future Enhancements
+
+- Web-based dashboard interface
+- Advanced analytics and machine learning integration
+- Multi-database support (PostgreSQL, SQLite, Oracle)
+- Collaborative features and sharing capabilities
+- Advanced security with role-based access control
+
+## Technical Requirements
+
+- Python 3.8+
+- MySQL 5.7+ or MariaDB 10.3+
+- Internet connection for LLM API access
+- Modern web browser for visualization display
+
+This system represents a significant advancement in natural language database interaction, combining sophisticated SQL generation with professional-grade data visualization in an intuitive conversational interface.
+
+[1](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/15299847/91526d49-97d7-4868-b1f8-49a12a2ff77e/advanced_pipeline.py)
+[2](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/15299847/13c2510a-ea51-4048-892b-58f7369bc79e/test_advanced.py)
+[3](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/15299847/2bfe27c8-1711-406b-8d24-c131f5234cf0/adv_main.py)
+[4](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/15299847/bc03eb1e-b897-4ff8-838c-6d3cac6a50fb/visualization.py)
+[5](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/15299847/70242b70-7189-4268-a035-71fe4b439bfe/README.md)
