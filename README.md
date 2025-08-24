@@ -182,9 +182,3 @@ python test_advanced.py
 - Modern web browser for visualization display
 
 This system represents a significant advancement in natural language database interaction, combining sophisticated SQL generation with professional-grade data visualization in an intuitive conversational interface.
-
-[1](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/15299847/91526d49-97d7-4868-b1f8-49a12a2ff77e/advanced_pipeline.py)
-[2](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/15299847/13c2510a-ea51-4048-892b-58f7369bc79e/test_advanced.py)
-[3](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/15299847/2bfe27c8-1711-406b-8d24-c131f5234cf0/adv_main.py)
-[4](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/15299847/bc03eb1e-b897-4ff8-838c-6d3cac6a50fb/visualization.py)
-[5](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/15299847/70242b70-7189-4268-a035-71fe4b439bfe/README.md)
