@@ -55,7 +55,7 @@ This version focuses on **basic single-table queries**, making it a simple and p
    ```
 2. **Install dependencies**  
    ```bash
-   pip install sqlalchemy pymysql langchain-groq
+   pip install -r requirements.txt
    ```
 3. **Run the interactive CLI**  
    ```bash
